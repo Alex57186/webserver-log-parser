@@ -33,3 +33,5 @@ to aggregate logs in memory in db
 php artisan logs:aggregate filename.txt --database
 ```
 
+## though the best way is to write logs straight in to DB table
+
