@@ -96,20 +96,6 @@ class AccessLogTest extends TestCase
 
     }
 
-
-    public function testbigFileTest()
-    {
-
-        $file = 'webserver-large.log';
-
-        $this->artisan("logs:aggregate $file")
-            ->assertExitCode(0);
-
-        $this->artisan("logs:aggregate $file --database")
-            ->assertExitCode(0);
-
-    }
-
     public function testWrongFileName()
     {
 
