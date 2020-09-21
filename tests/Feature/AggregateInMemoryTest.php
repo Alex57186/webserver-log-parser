@@ -5,12 +5,14 @@ namespace Tests\Feature;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class AccessLogTest extends TestCase
+/**
+ * Class AggregateInMemoryTest
+ * @package Tests\Feature
+ */
+class AggregateInMemoryTest extends TestCase
 {
     /**
-     * A basic test example.
-     *
-     * @return void
+     * if file were create on linux machine with CL new line, should work the same
      */
     public function testLFTest()
     {
@@ -38,21 +40,19 @@ class AccessLogTest extends TestCase
         $expect1 = '/help_page/1 5 visits /about 4 visits /contact 3 visits';
 
 
-        $random_name = 'webserver11234.log';
+        $random_name = 'webserver_test.log';
 
         Storage::put($random_name, implode("\n",$content));
 
-        $this->artisan('logs:aggregate webserver11234.log')
-            ->expectsOutput($expect)
-            ->expectsOutput($expect1)
-            ->assertExitCode(0);
-
-        $this->artisan('logs:aggregate webserver11234.log --database')
+        $this->artisan('parse webserver_test.log')
             ->expectsOutput($expect)
             ->expectsOutput($expect1)
             ->assertExitCode(0);
     }
 
+    /**
+     * if file were create on windows machine with CLRF new line, should work the same
+     */
     public function testCRLFTest()
     {
 
@@ -80,56 +80,50 @@ class AccessLogTest extends TestCase
         $expect1 = '/help_page/1 5 visits /about 4 visits /contact 3 visits';
 
 
-        $random_name = 'webserver11234.log';
+        $random_name = 'webserver_test.log';
 
         Storage::put($random_name, implode("\r\n",$content));
 
-        $this->artisan('logs:aggregate webserver11234.log')
-            ->expectsOutput($expect)
-            ->expectsOutput($expect1)
-            ->assertExitCode(0);
-
-        $this->artisan('logs:aggregate webserver11234.log --database')
+        $this->artisan('parse webserver_test.log')
             ->expectsOutput($expect)
             ->expectsOutput($expect1)
             ->assertExitCode(0);
 
     }
 
+    /**
+     * file does not exist warring message
+     */
     public function testWrongFileName()
     {
 
         $file = 'wrong-filename';
 
-        $this->artisan("logs:aggregate $file")
+        $this->artisan("parse $file")
             ->expectsOutput('file does not exist')
             ->assertExitCode(0);
-
-        $this->artisan("logs:aggregate $file --database")
-            ->expectsOutput('file does not exist')
-            ->assertExitCode(0);
-
-        Storage::delete($file);
 
     }
 
+    /**
+     * empty file warning message
+     */
     public function testEmptyFile()
     {
 
-        $random_name = 'webserver11234.log';
+        $random_name = 'webserver_test.log';
 
         Storage::put($random_name, '');
 
-        $this->artisan('logs:aggregate webserver11234.log')
-            ->expectsOutput('file is empty')
-            ->assertExitCode(0);
-
-        $this->artisan('logs:aggregate webserver11234.log --database')
+        $this->artisan('parse webserver_test.log')
             ->expectsOutput('file is empty')
             ->assertExitCode(0);
 
     }
 
+    /**
+     * redundant new lines at the end of the file, should work the same
+     */
     public function testEmptyLinesAtTheEnd()
     {
 
@@ -159,21 +153,19 @@ class AccessLogTest extends TestCase
         $expect1 = '/help_page/1 5 visits /about 4 visits /contact 3 visits';
 
 
-        $random_name = 'webserver11234.log';
+        $random_name = 'webserver_test.log';
 
         Storage::put($random_name, implode("\n", $content));
 
-        $this->artisan('logs:aggregate webserver11234.log')
-            ->expectsOutput($expect)
-            ->expectsOutput($expect1)
-            ->assertExitCode(0);
-
-        $this->artisan('logs:aggregate webserver11234.log --database')
+        $this->artisan('parse webserver_test.log')
             ->expectsOutput($expect)
             ->expectsOutput($expect1)
             ->assertExitCode(0);
     }
 
+    /**
+     * if routes have the same number of visits, they should be sorted by route length
+     */
     public function testRoutesHasSameNumberOfVisitsCheckOrder()
     {
 
@@ -196,16 +188,11 @@ class AccessLogTest extends TestCase
         $expect1 = '/help_page/1 3 visits /about 3 visits /list 3 visits /new 3 visits';
 
 
-        $random_name = 'webserver11234.log';
+        $random_name = 'webserver_test.log';
 
         Storage::put($random_name, implode("\n", $content));
 
-        $this->artisan('logs:aggregate webserver11234.log')
-            ->expectsOutput($expect)
-            ->expectsOutput($expect1)
-            ->assertExitCode(0);
-
-        $this->artisan('logs:aggregate webserver11234.log --database')
+        $this->artisan('parse webserver_test.log')
             ->expectsOutput($expect)
             ->expectsOutput($expect1)
             ->assertExitCode(0);

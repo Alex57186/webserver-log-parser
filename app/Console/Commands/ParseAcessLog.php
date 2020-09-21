@@ -3,11 +3,15 @@
 namespace App\Console\Commands;
 
 use App\InMemoryAggregators\Aggregator as MemoryAgg;
-use App\Aggregators\DBAggregator\Aggregator as DBAgg;
-use App\Aggregators\DBAggregator\ParserByLines;
+use App\Aggregators\DBAggregator\DBAggregator as DBAgg;
+use App\Aggregators\DBAggregator\DBParserByLines;
 use App\LogCliFormatter;
 use Illuminate\Console\Command;
 
+/**
+ * Class ParseAcessLog
+ * @package App\Console\Commands
+ */
 class ParseAcessLog extends Command
 {
     /**
@@ -15,14 +19,14 @@ class ParseAcessLog extends Command
      *
      * @var string
      */
-    protected $signature = 'logs:aggregate {filename} {--database}';
+    protected $signature = 'parse {filename} {--database}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = ' Displays how many times specific routes were visited, as well as how many unique users visited the routes';
 
     /**
      * Create a new command instance.
@@ -38,6 +42,7 @@ class ParseAcessLog extends Command
      * Execute the console command.
      *
      * @return int
+     * @throws \Exception
      */
     public function handle()
     {
@@ -53,7 +58,7 @@ class ParseAcessLog extends Command
 
         if ($useDBAgrregation) {
 
-            $dbLogParser = new ParserByLines($filePath,'access_logs');
+            $dbLogParser = new DBParserByLines($filePath,'access_logs');
 
             $logAggregator = new DBAgg($dbLogParser);
 
@@ -79,6 +84,11 @@ class ParseAcessLog extends Command
 
     }
 
+    /**
+     * validates that the file exist and is not empty
+     * @param $filePath
+     * @return bool
+     */
     public function validateFile($filePath) {
 
         if (false === file_exists($filePath)) {

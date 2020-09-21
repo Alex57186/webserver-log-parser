@@ -1,37 +1,60 @@
-# webserver-log-parser
+## Smart Pension tech task
+The tool is meant to monitor access log data. Displays how many times specific routes were visited, as well as how many unique users visited the routes.
 
-## Environment configuration
+This tool provides two ways to aggregate webserver.log file
+1. In memory aggregation
+2. Aggregation with database usage (optional)
 
-fill these env parameters in .env file
+### Installation
 
+```bash
+composer install
+```
+### In memory agregation
+
+##### Tests
+
+```bash
+php artisan test --filter AggregateInMemoryTest
+```
+
+##### usage
+
+```bash
+php artisan parse webserver.log
+```
+
+### Database aggregation (optional)
+
+
+To use database aggregation:
+ 1. create db
+ 2. configure db connection by filling variables in .env file
+ 3. run migration command to create a table
+ 4. run tests
+ 
+Environment variables 
+```
 DB_CONNECTION=
 DB_HOST=
 DB_PORT=
 DB_DATABASE=
 DB_USERNAME=
-DB_PASSWORD=
+```
 
-## Installation
-
+Run migration command to create table
 ```bash
-composer install
 php artisan migrate
-php artisan test
 ```
 
-## Usage
+Run tests
 
-put log file into storage/app directory
-
-to aggregate logs in memory
 ```bash
-php artisan logs:aggregate filename.txt
+php artisan test --filter AggregateInDBTest
 ```
 
-to aggregate logs in memory in db 
+##### usage
+
 ```bash
-php artisan logs:aggregate filename.txt --database
+php artisan parse webserver.log --database
 ```
-
-## though the best way is to write logs straight in to DB table
-

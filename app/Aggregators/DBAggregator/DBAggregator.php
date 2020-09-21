@@ -6,16 +6,40 @@ namespace App\Aggregators\DBAggregator;
 use App\Aggregators\LogAggregatorInterface;
 use Illuminate\Support\Facades\DB;
 
-class Aggregator implements LogAggregatorInterface
+/**
+ * Class Aggregator
+ *
+ * Aggregates logs with the usage of db,
+ * as a constructor parameter takes ParserInterface instance
+ * The idea is that log file can be parsed in many different ways,
+ * so it makes sense to separate parsing logic and aggregation logic,
+ * It enables to use different implementations of parser
+ *
+ * @package App\Aggregators\DBAggregator
+ */
+class DBAggregator implements LogAggregatorInterface
 {
+    /**
+     * Table from which logs are taken
+     * @var string
+     */
     private $tableName;
 
+    /**
+     *
+     * @param $res
+     * @return array
+     */
     private function resultToArray($res) {
         return array_map(function ($row) {
             return (array)$row;
         },$res);
     }
 
+    /**
+     * DBAggregator constructor.
+     * @param ParserInterface $logParser
+     */
     public function __construct(ParserInterface $logParser)
     {
         $this->tableName = $logParser->getTableName();
@@ -23,6 +47,10 @@ class Aggregator implements LogAggregatorInterface
         $logParser->parse();
     }
 
+    /**
+     * Groups records by route and aggregates all ips
+     * @return array
+     */
     public function aggregateLogs(): array
     {
         $res = DB::table($this->tableName)
@@ -35,6 +63,10 @@ class Aggregator implements LogAggregatorInterface
         return $this->resultToArray($res);
     }
 
+    /**
+     * Groups records by route and aggregates only unique ips
+     * @return array
+     */
     public function aggregateLogsUniqueIps(): array
     {
         $res = DB::table($this->tableName)
