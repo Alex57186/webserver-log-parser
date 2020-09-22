@@ -9,10 +9,10 @@ use App\LogCliFormatter;
 use Illuminate\Console\Command;
 
 /**
- * Class ParseAcessLog
+ * Class ParseAccessLog
  * @package App\Console\Commands
  */
-class ParseAcessLog extends Command
+class ParseAccessLog extends Command
 {
     /**
      * The name and signature of the console command.
@@ -26,7 +26,7 @@ class ParseAcessLog extends Command
      *
      * @var string
      */
-    protected $description = ' Displays how many times specific routes were visited, as well as how many unique users visited the routes';
+    protected $description = 'Displays how many times specific routes were visited, as well as how many unique users visited the routes';
 
     /**
      * Create a new command instance.

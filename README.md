@@ -10,7 +10,7 @@ This tool provides two ways to aggregate webserver.log file
 ```bash
 composer install
 ```
-### In memory agregation
+### In memory aggregation
 
 ##### Tests
 
