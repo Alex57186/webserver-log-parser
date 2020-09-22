@@ -37,7 +37,7 @@ class AggregationInDBTest extends TestCase
 
         $expect = '/about 6 visits /help_page/1 5 visits /contact 4 visits';
 
-        $expect1 = '/help_page/1 5 visits /about 4 visits /contact 3 visits';
+        $expect1 = '/help_page/1 5 unique visits /about 4 unique visits /contact 3 unique visits';
 
 
         $random_name = 'webserver_test.log';
@@ -77,7 +77,7 @@ class AggregationInDBTest extends TestCase
 
         $expect = '/about 6 visits /help_page/1 5 visits /contact 4 visits';
 
-        $expect1 = '/help_page/1 5 visits /about 4 visits /contact 3 visits';
+        $expect1 = '/help_page/1 5 unique visits /about 4 unique visits /contact 3 unique visits';
 
 
         $random_name = 'webserver_test.log';
@@ -152,7 +152,7 @@ class AggregationInDBTest extends TestCase
 
         $expect = '/about 6 visits /help_page/1 5 visits /contact 4 visits';
 
-        $expect1 = '/help_page/1 5 visits /about 4 visits /contact 3 visits';
+        $expect1 = '/help_page/1 5 unique visits /about 4 unique visits /contact 3 unique visits';
 
 
         $random_name = 'webserver_test.log';
@@ -187,7 +187,7 @@ class AggregationInDBTest extends TestCase
         ];
 
         $expect = '/help_page/1 3 visits /about 3 visits /list 3 visits /new 3 visits';
-        $expect1 = '/help_page/1 3 visits /about 3 visits /list 3 visits /new 3 visits';
+        $expect1 = '/help_page/1 3 unique visits /about 3 unique visits /list 3 unique visits /new 3 unique visits';
 
 
         $random_name = 'webserver_test.log';

@@ -17,11 +17,12 @@ class LogCliFormatter
      * @param $accessLogGroupedByRoute
      * @return string
      */
-    public function formatAsLine($accessLogGroupedByRoute) {
+    public function formatAsLine($accessLogGroupedByRoute, bool $unique = false) {
 
         foreach ($accessLogGroupedByRoute as $row) {
             $row = (array)$row;
-            $sortedByIpsAmountStrings[] = sprintf('%s %d visits', $row['route'], $row['ips']);
+            $format = $unique ? '%s %d unique visits':'%s %d visits';
+            $sortedByIpsAmountStrings[] = sprintf($format, $row['route'], $row['ips']);
         }
 
         $inputLine = implode(' ', $sortedByIpsAmountStrings);

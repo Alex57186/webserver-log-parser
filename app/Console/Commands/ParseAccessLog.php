@@ -77,7 +77,7 @@ class ParseAccessLog extends Command
         $logCliFormatter = new LogCliFormatter();
 
         $str1 = $logCliFormatter->formatAsLine($routesAndIps);
-        $str2 = $logCliFormatter->formatAsLine($routesAndIpsUnique);
+        $str2 = $logCliFormatter->formatAsLine($routesAndIpsUnique, true);
 
         $this->line($str1);
         $this->line($str2);
