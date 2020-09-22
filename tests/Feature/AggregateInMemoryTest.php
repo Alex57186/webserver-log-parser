@@ -35,18 +35,25 @@ class AggregateInMemoryTest extends TestCase
             '/about 184.123.345.657',
         ];
 
-        $expect = '/about 6 visits /help_page/1 5 visits /contact 4 visits';
+        $expectArr = [
+            "/about 6 visits",
+            "/help_page/1 5 visits",
+            "/contact 4 visits",
+        ];
 
-        $expect1 = '/help_page/1 5 unique visits /about 4 unique visits /contact 3 unique visits';
-
+        $expectArray1 = [
+            '/help_page/1 5 unique visits',
+            '/about 4 unique visits',
+            '/contact 3 unique visits',
+        ];
 
         $random_name = 'webserver_test.log';
 
         Storage::put($random_name, implode("\n",$content));
 
         $this->artisan('parse webserver_test.log')
-            ->expectsOutput($expect)
-            ->expectsOutput($expect1)
+            ->expectsOutput(implode(PHP_EOL, $expectArr))
+            ->expectsOutput(implode(PHP_EOL, $expectArray1))
             ->assertExitCode(0);
     }
 
@@ -72,12 +79,19 @@ class AggregateInMemoryTest extends TestCase
             '/about 184.123.345.657',
             '/about 184.123.345.657',
             '/about 184.123.345.657',
-
         ];
 
-        $expect = '/about 6 visits /help_page/1 5 visits /contact 4 visits';
+        $expectArr = [
+            "/about 6 visits",
+            "/help_page/1 5 visits",
+            "/contact 4 visits"
+        ];
 
-        $expect1 = '/help_page/1 5 unique visits /about 4 unique visits /contact 3 unique visits';
+        $expectArray = [
+            '/help_page/1 5 unique visits',
+            '/about 4 unique visits',
+            '/contact 3 unique visits',
+        ];
 
 
         $random_name = 'webserver_test.log';
@@ -85,8 +99,8 @@ class AggregateInMemoryTest extends TestCase
         Storage::put($random_name, implode("\r\n",$content));
 
         $this->artisan('parse webserver_test.log')
-            ->expectsOutput($expect)
-            ->expectsOutput($expect1)
+            ->expectsOutput(implode(PHP_EOL, $expectArr))
+            ->expectsOutput(implode(PHP_EOL, $expectArray))
             ->assertExitCode(0);
 
     }
@@ -148,9 +162,18 @@ class AggregateInMemoryTest extends TestCase
             "\n",
         ];
 
-        $expect = '/about 6 visits /help_page/1 5 visits /contact 4 visits';
+        $expectArray= $expectArr = [
+            "/about 6 visits",
+            "/help_page/1 5 visits",
+            "/contact 4 visits"
+        ];;
 
-        $expect1 = '/help_page/1 5 unique visits /about 4 unique visits /contact 3 unique visits';
+        $expectArray1 = [
+            '/help_page/1 5 unique visits',
+            '/about 4 unique visits',
+            '/contact 3 unique visits',
+        ];
+
 
 
         $random_name = 'webserver_test.log';
@@ -158,8 +181,8 @@ class AggregateInMemoryTest extends TestCase
         Storage::put($random_name, implode("\n", $content));
 
         $this->artisan('parse webserver_test.log')
-            ->expectsOutput($expect)
-            ->expectsOutput($expect1)
+            ->expectsOutput(implode(PHP_EOL, $expectArray))
+            ->expectsOutput(implode(PHP_EOL, $expectArray1))
             ->assertExitCode(0);
     }
 
@@ -184,8 +207,20 @@ class AggregateInMemoryTest extends TestCase
             '/new 929.398.951.482',
         ];
 
-        $expect = '/help_page/1 3 visits /about 3 visits /list 3 visits /new 3 visits';
-        $expect1 = '/help_page/1 3 unique visits /about 3 unique visits /list 3 unique visits /new 3 unique visits';
+        $expectArray=
+            [
+                '/help_page/1 3 visits',
+                '/about 3 visits',
+                '/list 3 visits',
+                '/new 3 visits'
+            ];
+
+        $expectArray1 = [
+            '/help_page/1 3 unique visits',
+            '/about 3 unique visits',
+            '/list 3 unique visits',
+            '/new 3 unique visits'
+        ];
 
 
         $random_name = 'webserver_test.log';
@@ -193,8 +228,8 @@ class AggregateInMemoryTest extends TestCase
         Storage::put($random_name, implode("\n", $content));
 
         $this->artisan('parse webserver_test.log')
-            ->expectsOutput($expect)
-            ->expectsOutput($expect1)
+            ->expectsOutput(implode(PHP_EOL, $expectArray))
+            ->expectsOutput(implode(PHP_EOL, $expectArray1))
             ->assertExitCode(0);
     }
 

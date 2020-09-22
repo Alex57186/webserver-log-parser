@@ -79,7 +79,9 @@ class ParseAccessLog extends Command
         $str1 = $logCliFormatter->formatAsLine($routesAndIps);
         $str2 = $logCliFormatter->formatAsLine($routesAndIpsUnique, true);
 
+        $this->info("total visits for each route");
         $this->line($str1);
+        $this->info("unique visits for each route");
         $this->line($str2);
 
     }

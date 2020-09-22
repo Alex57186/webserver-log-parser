@@ -25,7 +25,7 @@ class LogCliFormatter
             $sortedByIpsAmountStrings[] = sprintf($format, $row['route'], $row['ips']);
         }
 
-        $inputLine = implode(' ', $sortedByIpsAmountStrings);
+        $inputLine = implode(PHP_EOL, $sortedByIpsAmountStrings);
 
         return $inputLine;
     }
